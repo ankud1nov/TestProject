@@ -1,0 +1,57 @@
+﻿<Page x:Class="TestProject.Pages.Details.Employee.EmployeeDetailsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TestProject.Pages"
+      xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="EmployeeDetailsPage"
+      d:DataContext="{d:DesignInstance local:EmployeeDetailsViewModel}">
+
+    <Grid>
+        <StackPanel Orientation="Vertical" Background="#FF252525">
+            <WrapPanel Orientation="Horizontal" Margin="5">
+                <Label Content="Фамилия"/>
+                <TextBox MinWidth="200" Text="{Binding Value.Surname, Mode=TwoWay}"/>
+            </WrapPanel>
+            <WrapPanel Orientation="Horizontal" Margin="5">
+                <Label Content="Имя"/>
+                <TextBox MinWidth="200" Text="{Binding Value.Name, Mode=TwoWay}"/>
+            </WrapPanel>
+            <WrapPanel Orientation="Horizontal" Margin="5">
+                <Label Content="Отчество"/>
+                <TextBox MinWidth="200" Text="{Binding Value.Lastname, Mode=TwoWay}"/>
+            </WrapPanel>
+            <WrapPanel Orientation="Horizontal" Margin="5">
+                <Label Content="Дата рождения"/>
+                <DatePicker SelectedDate="{Binding Value.Birthdate, Mode=TwoWay}"/>
+            </WrapPanel>
+            <WrapPanel Orientation="Horizontal" Margin="5">
+                <Label Content="Дата трудоустройства"/>
+                <DatePicker SelectedDate="{Binding Value.EmploymentDate, Mode=TwoWay}"/>
+            </WrapPanel>
+            <WrapPanel Orientation="Horizontal" Margin="5">
+                <Label Content="Отдел"/>
+                <ComboBox 
+                    ItemsSource="{Binding Departments}"
+                    DisplayMemberPath="Name"
+                    SelectedItem="{Binding CurrentDepartment, Mode=TwoWay}"
+                    SelectedValuePath="Name"/>
+            </WrapPanel>
+            <WrapPanel Orientation="Horizontal" Margin="5">
+                <Label Content="Должность"/>
+                <TextBox MinWidth="200" Text="{Binding Value.Position, Mode=TwoWay}"/>
+            </WrapPanel>
+            <WrapPanel Orientation="Horizontal" Margin="5">
+                <Label Content="Зарплата"/>
+                <TextBox MinWidth="200" Text="{Binding Value.Salary, Mode=TwoWay}"/>
+            </WrapPanel>
+            <WrapPanel Orientation="Horizontal" Margin="5">
+                <Button Content="Сохранить"/>
+                <Button Content="Удалить"/>
+            </WrapPanel>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using System.Configuration;
 using System.IO;
 using System.Threading.Tasks;
+using TestProject.Pages;
 
 namespace TestProject
 {
@@ -55,6 +54,9 @@ namespace TestProject
         private void RegisterViewModels(IServiceCollection services)
         {
             services.AddSingleton<MainWindowViewModel>();
+            services.AddTransient<CompanyDetailsViewModel>();
+            services.AddTransient<DepartmentDetailsViewModel>();
+            services.AddTransient<EmployeeDetailsViewModel>();
         }
 
         public async Task StartAsync()

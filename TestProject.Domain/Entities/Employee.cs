@@ -18,6 +18,12 @@ namespace TestProject.Domain.Entities
         public virtual Department Department { get; set; }
         public string Position { get; set; }
         public double Salary { get; set; }
-        public string FullName => $"{Surname} {Name.Substring(0, 1)}. {Lastname.Substring(0, 1)}.";
+
+        //TODO: Исправить это
+        public string FullName
+        {
+            get => $"{Surname} {Name.Substring(0, 1)}. {Lastname.Substring(0, 1)}.";
+            set { }
+        }
     }
 }

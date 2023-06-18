@@ -39,7 +39,7 @@
                                     <Label>
                                         <Label.Content>
                                             <StackPanel Orientation="Horizontal">
-                                                <Label Content="{Binding Name}"/>
+                                                <Label Content="{Binding Value.Name}"/>
                                                 <Button ToolTip="Добавить отдел">
                                                     <iconPacks:PackIconModern Width="10"
                                                               Height="10"
@@ -47,13 +47,16 @@
                                                 </Button>
                                             </StackPanel>
                                         </Label.Content>
+                                        <Label.InputBindings>
+                                            <MouseBinding Command="{Binding ShowDetailsCommand}" MouseAction="LeftClick" />
+                                        </Label.InputBindings>
                                     </Label>
                                     <HierarchicalDataTemplate.ItemTemplate>
                                         <HierarchicalDataTemplate ItemsSource="{Binding Employees}">
                                             <Label>
                                                 <Label.Content>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <Label Content="{Binding Name}"/>
+                                                        <Label Content="{Binding Value.Name}"/>
                                                         <Button ToolTip="Добавить сотрудника">
                                                             <iconPacks:PackIconModern Width="10"
                                                               Height="10"
@@ -61,10 +64,17 @@
                                                         </Button>
                                                     </StackPanel>
                                                 </Label.Content>
+                                                <Label.InputBindings>
+                                                    <MouseBinding Command="{Binding ShowDetailsCommand}" MouseAction="LeftClick" />
+                                                </Label.InputBindings>
                                             </Label>
                                             <HierarchicalDataTemplate.ItemTemplate>
                                                 <DataTemplate>
-                                                    <Label Content="{Binding FullName}"/>
+                                                    <Label Content="{Binding Value.FullName}">
+                                                        <Label.InputBindings>
+                                                            <MouseBinding Command="{Binding ShowDetailsCommand}" MouseAction="LeftClick" />
+                                                        </Label.InputBindings>
+                                                    </Label>
                                                 </DataTemplate>
                                             </HierarchicalDataTemplate.ItemTemplate>
                                         </HierarchicalDataTemplate>
@@ -73,6 +83,7 @@
                             </TreeView.ItemTemplate>
                         </TreeView>
                     </GroupBox>
+                    <Frame NavigationUIVisibility="Hidden" Grid.Column="1" Content="{Binding OpenedPage}" Source="{Binding OpenedUri}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Отчеты">
