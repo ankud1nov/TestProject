@@ -3,11 +3,82 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:TestProject"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        d:DataContext="{d:DesignInstance local:MainWindowViewModel}">
     <Grid>
+        <TabControl x:Name="tabControl">
+            <TabItem Header="Компании">
+                <Grid Background="#FFE5E5E5" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200px" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <GroupBox>
+                        <GroupBox.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Список компаний"/>
+                                <Button ToolTip="Добавить компанию">
+                                    <iconPacks:PackIconModern Width="10"
+                                                              Height="10"
+                                                              Kind="Add" />
+                                </Button>
+                                <Button ToolTip="Обновить список">
+                                    <iconPacks:PackIconModern Width="10"
+                                                              Height="10"
+                                                              Kind="Refresh" />
+                                </Button>
+                            </StackPanel>
+                        </GroupBox.Header>
+                        <TreeView ItemsSource="{Binding Companies}">
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Departments}">
+                                    <Label>
+                                        <Label.Content>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label Content="{Binding Name}"/>
+                                                <Button ToolTip="Добавить отдел">
+                                                    <iconPacks:PackIconModern Width="10"
+                                                              Height="10"
+                                                              Kind="Add" />
+                                                </Button>
+                                            </StackPanel>
+                                        </Label.Content>
+                                    </Label>
+                                    <HierarchicalDataTemplate.ItemTemplate>
+                                        <HierarchicalDataTemplate ItemsSource="{Binding Employees}">
+                                            <Label>
+                                                <Label.Content>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label Content="{Binding Name}"/>
+                                                        <Button ToolTip="Добавить сотрудника">
+                                                            <iconPacks:PackIconModern Width="10"
+                                                              Height="10"
+                                                              Kind="Add" />
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Label.Content>
+                                            </Label>
+                                            <HierarchicalDataTemplate.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Label Content="{Binding FullName}"/>
+                                                </DataTemplate>
+                                            </HierarchicalDataTemplate.ItemTemplate>
+                                        </HierarchicalDataTemplate>
+                                    </HierarchicalDataTemplate.ItemTemplate>
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Отчеты">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
 
     </Grid>
 </mah:MetroWindow>

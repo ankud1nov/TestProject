@@ -1,5 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using System.Configuration;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace TestProject
@@ -7,6 +11,7 @@ namespace TestProject
     public class ServicesLocator
     {
         private readonly IHost _host;
+        private IConfiguration _configuration;
         private static ServicesLocator _servicesLocator;
 
         public static ServicesLocator Current => 
@@ -14,6 +19,12 @@ namespace TestProject
 
         private ServicesLocator()
         {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+            _configuration = builder.Build();
+
             _host = Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) =>
                 {
@@ -23,7 +34,8 @@ namespace TestProject
 
         private void ConfigureServices(IServiceCollection services)
         {
-            RegisterPages(services);
+            services.AddSingleton(_configuration);
+            RegisterViews(services);
             RegisterViewModels(services);
             RegisterContext(services);
         }
@@ -32,9 +44,12 @@ namespace TestProject
         {
         }
 
-        private void RegisterPages(IServiceCollection services)
+        private void RegisterViews(IServiceCollection services)
         {
-            services.AddSingleton<MainWindow>();
+            services.AddSingleton<MainWindow>((s) => new MainWindow()
+            {
+                DataContext = s.GetRequiredService<MainWindowViewModel>()
+            });
         }
 
         private void RegisterViewModels(IServiceCollection services)
