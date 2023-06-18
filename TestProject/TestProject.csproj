@@ -8,18 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="appsettings.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>appsettings.json</DependentUpon>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>appsettings.cs</LastGenOutput>
-    </None>
+    <PackageReference Include="MahApps.Metro" Version="2.4.9" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
