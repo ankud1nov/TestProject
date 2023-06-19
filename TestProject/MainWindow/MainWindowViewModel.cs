@@ -5,13 +5,9 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Threading;
 using TestProject.DataAccess;
 using TestProject.Pages;
-using TestProject.Pages.Details.Company;
-using TestProject.Pages.Details.Department;
-using TestProject.Pages.Details.Employee;
 using TestProject.Reports;
 
 namespace TestProject
@@ -27,12 +23,11 @@ namespace TestProject
         private readonly Dispatcher _uiDispatcher;
         private readonly Paginator _paginator;
 
-
-        private ObservableCollection<CompanyDetailsViewModel> _companies = new ObservableCollection<CompanyDetailsViewModel>();        
+        private ObservableCollection<CompanyDetailsViewModel> _companies = new ObservableCollection<CompanyDetailsViewModel>();
 
         public Paginator PaginatorInstance => _paginator;
-        public ObservableCollection<CompanyDetailsViewModel> Companies => _companies; 
-        
+        public Dispatcher uiDispatcher => _uiDispatcher;
+        public ObservableCollection<CompanyDetailsViewModel> Companies => _companies;
         public ReprortsViewModel ReprortsViewModel { get; set; }
 
         public MainWindowViewModel(
@@ -58,7 +53,7 @@ namespace TestProject
 
             
             foreach (var item in companyes)
-                _uiDispatcher.BeginInvoke(() => _companies.Add(new CompanyDetailsViewModel(item)));
+                _uiDispatcher.Invoke(() => _companies.Add(new CompanyDetailsViewModel(item)));
 
             if (_companies.Any())
                 _uiDispatcher.BeginInvoke(() => _paginator.SetDeatilsPage(_companies.FirstOrDefault()));
