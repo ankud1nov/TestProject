@@ -7,10 +7,9 @@ namespace TestProject.Pages.Details.Department
     /// </summary>
     public partial class DepartmentDetailsPage : Page
     {
-        public DepartmentDetailsPage(DepartmentDetailsViewModel viewModel)
+        public DepartmentDetailsPage()
         {
             InitializeComponent();
-            DataContext = viewModel;
         }
     }
 }

@@ -22,9 +22,8 @@ namespace TestProject.Pages
             StrongReferenceMessenger.Default.Send(new ValueChangedMessage<CompanyDetailsViewModel>(this));
         }
 
-        public CompanyDetailsViewModel(Company company) 
+        public CompanyDetailsViewModel(Company company) : base(company)
         {
-            Value = company;
             foreach (var department in company.Departments)
             {
                 Departments.Add(new DepartmentDetailsViewModel(department));

@@ -3,7 +3,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
 using System.Threading.Tasks;
+using TestProject.DataAccess;
 using TestProject.Pages;
+using TestProject.Pages.Details.Company;
+using TestProject.Pages.Details.Department;
+using TestProject.Pages.Details.Employee;
+using TestProject.Reports;
 
 namespace TestProject
 {
@@ -34,6 +39,9 @@ namespace TestProject
         private void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(_configuration);
+            services.AddSingleton<DBContextDataAccess>();
+            services.AddSingleton<Paginator>();
+
             RegisterViews(services);
             RegisterViewModels(services);
             RegisterContext(services);
@@ -45,6 +53,9 @@ namespace TestProject
 
         private void RegisterViews(IServiceCollection services)
         {
+            services.AddTransient<CompanyDetailsPage>();
+            services.AddTransient<DepartmentDetailsPage>();
+            services.AddTransient<EmployeeDetailsPage>();
             services.AddSingleton<MainWindow>((s) => new MainWindow()
             {
                 DataContext = s.GetRequiredService<MainWindowViewModel>()
@@ -57,6 +68,7 @@ namespace TestProject
             services.AddTransient<CompanyDetailsViewModel>();
             services.AddTransient<DepartmentDetailsViewModel>();
             services.AddTransient<EmployeeDetailsViewModel>();
+            services.AddSingleton<ReprortsViewModel>();
         }
 
         public async Task StartAsync()

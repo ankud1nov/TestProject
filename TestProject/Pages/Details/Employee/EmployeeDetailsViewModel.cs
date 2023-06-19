@@ -19,21 +19,20 @@ namespace TestProject.Pages
         }
         public ICollection<Department> Departments { get; set; }
 
-        [RelayCommand]
-        private void ShowDetails()
+        public EmployeeDetailsViewModel(Employee employee) : base(employee)
         {
-            StrongReferenceMessenger.Default.Send(new ValueChangedMessage<EmployeeDetailsViewModel>(this));
-        }
-
-        public EmployeeDetailsViewModel(Employee employee)
-        {
-            Value = employee;
             var conf = ServicesLocator.Current.GetRequiredService<IConfiguration>();
             Departments = conf
                     .GetRequiredSection("Departments")
                     .Get<Department[]>();
 
             CurrentDepartment = Departments.FirstOrDefault(x => x.Id == Value.DepartamentId);
+        }
+
+        [RelayCommand]
+        private void ShowDetails()
+        {
+            StrongReferenceMessenger.Default.Send(new ValueChangedMessage<EmployeeDetailsViewModel>(this));
         }
     }
 }

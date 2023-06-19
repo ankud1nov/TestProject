@@ -6,18 +6,22 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:TestProject"
+        xmlns:reports="clr-namespace:TestProject.Reports"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="MainWindow" MinHeight="500" Width="800"
+        WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance local:MainWindowViewModel}">
     <Grid>
         <TabControl x:Name="tabControl">
             <TabItem Header="Компании">
-                <Grid Background="#FFE5E5E5" >
+                <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200px" />
+                        <ColumnDefinition Width="26.191" />
+                        <ColumnDefinition Width="150.757"/>
+                        <ColumnDefinition Width="23.052"/>
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <GroupBox>
+                    <GroupBox Grid.ColumnSpan="3">
                         <GroupBox.Header>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Список компаний"/>
@@ -83,11 +87,13 @@
                             </TreeView.ItemTemplate>
                         </TreeView>
                     </GroupBox>
-                    <Frame NavigationUIVisibility="Hidden" Grid.Column="1" Content="{Binding OpenedPage}" Source="{Binding OpenedUri}"/>
+                    <Frame NavigationUIVisibility="Hidden" Grid.Column="3" Content="{Binding PaginatorInstance.OpenedPage}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Отчеты">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid DataContext="{Binding ReprortsViewModel}" d:DataContext="{d:DesignInstance reports:ReprortsViewModel}">
+                    <Label Content="{Binding Text}"/>
+                </Grid>
             </TabItem>
         </TabControl>
 

@@ -18,11 +18,11 @@ namespace TestProject.Domain.Entities
         public virtual Department Department { get; set; }
         public string Position { get; set; }
         public double Salary { get; set; }
-
-        //TODO: Исправить это
+        [NotMapped]
         public string FullName
         {
             get => $"{Surname} {Name.Substring(0, 1)}. {Lastname.Substring(0, 1)}.";
+            // Значение не для записи, set - чтобы работал MVVM без ошибок.
             set { }
         }
     }

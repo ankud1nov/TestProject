@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject", "TestProject\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject.Domain", "TestProject.Domain\TestProject.Domain.csproj", "{D385B166-9F9F-4579-AA07-E7DF4350D146}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject.Wpf", "TestProject.Wpf\TestProject.Wpf.csproj", "{171F46B0-30A8-4201-81C4-70EFE30890B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject.DataAccess", "TestProject.DataAccess\TestProject.DataAccess.csproj", "{137B2C60-2475-48C3-BD7C-36668E3708A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{D385B166-9F9F-4579-AA07-E7DF4350D146}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D385B166-9F9F-4579-AA07-E7DF4350D146}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D385B166-9F9F-4579-AA07-E7DF4350D146}.Release|Any CPU.Build.0 = Release|Any CPU
-		{171F46B0-30A8-4201-81C4-70EFE30890B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{171F46B0-30A8-4201-81C4-70EFE30890B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{171F46B0-30A8-4201-81C4-70EFE30890B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{171F46B0-30A8-4201-81C4-70EFE30890B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{137B2C60-2475-48C3-BD7C-36668E3708A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{137B2C60-2475-48C3-BD7C-36668E3708A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{137B2C60-2475-48C3-BD7C-36668E3708A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{137B2C60-2475-48C3-BD7C-36668E3708A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

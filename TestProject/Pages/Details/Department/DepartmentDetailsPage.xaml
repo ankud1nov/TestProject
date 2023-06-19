@@ -23,13 +23,25 @@
                     SelectedItem="{Binding DepartmentHead, Mode=TwoWay}"
                     SelectedValuePath="FullName"/>
             </WrapPanel>
+            <Label Content="Список сотрудников"/>
+            <DataGrid ItemsSource="{Binding Value.Employees}" 
+                      Height="250"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      GridLinesVisibility="All">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Фамилия"  Binding="{Binding Surname}"/>
+                    <DataGridTextColumn Header="Имя" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="Отчество" Binding="{Binding Lastname}"/>
+                    <DataGridTextColumn Header="Дата рождения" Binding="{Binding Birthdate}"/>
+                    <DataGridTextColumn Header="Дата трудоустройства" Binding="{Binding EmploymentDate}"/>
+                    <DataGridTextColumn Header="Должность" Binding="{Binding Position}"/>
+                    <DataGridTextColumn Header="Зарплата" Binding="{Binding Salary}"/>
+                </DataGrid.Columns>
+            </DataGrid>
             <WrapPanel Orientation="Horizontal" Margin="5">
-                <Label Content="Список сотрудников"/>
-                <ComboBox ItemsSource="{Binding Value.Employees}" DisplayMemberPath="FullName"/>
-            </WrapPanel>
-            <WrapPanel Orientation="Horizontal" Margin="5">
-                <Button Content="Сохранить"/>
-                <Button Content="Удалить"/>
+                <Button Content="Сохранить" Command="{Binding SaveCommand}"/>
+                <Button Content="Удалить" Command="{Binding DeleteCommand}"/>
             </WrapPanel>
         </StackPanel>
     </Grid>

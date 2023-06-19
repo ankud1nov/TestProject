@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
@@ -15,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TestProject.DataAccess\TestProject.DataAccess.csproj" />
     <ProjectReference Include="..\TestProject.Domain\TestProject.Domain.csproj" />
-    <ProjectReference Include="..\TestProject.Wpf\TestProject.Wpf.csproj" />
   </ItemGroup>
 
   <ItemGroup>

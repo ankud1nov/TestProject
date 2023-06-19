@@ -7,10 +7,9 @@ namespace TestProject.Pages.Details.Employee
     /// </summary>
     public partial class EmployeeDetailsPage : Page
     {
-        public EmployeeDetailsPage(EmployeeDetailsViewModel viewModel)
+        public EmployeeDetailsPage()
         {
             InitializeComponent();
-            DataContext = viewModel;
         }
     }
 }
