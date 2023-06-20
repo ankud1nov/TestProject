@@ -9,7 +9,7 @@
         xmlns:reports="clr-namespace:TestProject.Reports"
         xmlns:converters="clr-namespace:TestProject.Converters"
         mc:Ignorable="d"
-        Title="MainWindow" MinHeight="500" Width="800"
+        Title="MainWindow" MinHeight="500" Height="600" Width="800"
         WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance local:MainWindowViewModel}">
     <Grid>
@@ -92,65 +92,112 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Отчеты">
-                <Grid DataContext="{Binding ReprortsViewModel}" d:DataContext="{d:DesignInstance reports:ReprortsViewModel}">
-                    <StackPanel Orientation="Vertical">
-                        <Label Content="{Binding Text}"/>
-                        <DataGrid ItemsSource="{Binding SalaryReport.Collection}"
-                      Height="250"
-                      AutoGenerateColumns="False"
-                      IsReadOnly="True"
-                      GridLinesVisibility="All">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Компания"  Binding="{Binding Company}"/>
-                                <DataGridTextColumn Header="Подразделение" Binding="{Binding Department}"/>
-                                <DataGridTextColumn Header="Сотрудник" Binding="{Binding Employee}"/>
-                                <DataGridTextColumn Header="Зарплата" Binding="{Binding EmployeeSalary}"/>
-                            </DataGrid.Columns>
-                            <DataGrid.GroupStyle>
-                                <!-- Style for groups at top level. -->
-                                <GroupStyle>
-                                    <GroupStyle.ContainerStyle>
-                                        <Style TargetType="{x:Type GroupItem}">
-                                            <Setter Property="Margin" Value="0,0,0,5"/>
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="{x:Type GroupItem}">
-                                                        <Expander IsExpanded="True" >
-                                                            <Expander.Header>
-                                                                <DockPanel>
-                                                                    <TextBlock FontWeight="Bold" Text="{Binding Path=Name}"/>
-                                                                    <TextBlock FontWeight="Bold" Text="{Binding Path=ItemCount, StringFormat=Сотрудников: {0}}" Margin="5,0" />
-                                                                    <TextBlock Text="{Binding Path=Items, Converter={converters:EmployeeSalaryModelToDecimalConverter}}" Margin="5,0" />
-                                                                </DockPanel>
-                                                            </Expander.Header>
-                                                            <Expander.Content>
-                                                                <StackPanel>
-                                                                    <ItemsPresenter />
-                                                                    <Label Content="Итого по отделу"/>
-                                                                </StackPanel>
-                                                            </Expander.Content>
-                                                        </Expander>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </GroupStyle.ContainerStyle>
-                                </GroupStyle>
-                                <!-- Style for groups under the top level. -->
-                                <GroupStyle>
-                                    <GroupStyle.HeaderTemplate>
-                                        <DataTemplate>
-                                            <DockPanel>
-                                                <TextBlock Text="{Binding Path=Name}" Margin="30,0,0,0" Width="100"/>
-                                                <TextBlock Text="{Binding Path=ItemCount}" />
-                                                <TextBlock Text="{Binding Path=Items, Converter={converters:EmployeeSalaryModelToDecimalConverter}}" Margin="5,0" />
-                                            </DockPanel>
-                                        </DataTemplate>
-                                    </GroupStyle.HeaderTemplate>
-                                </GroupStyle>
-                            </DataGrid.GroupStyle>
-                        </DataGrid>
-                    </StackPanel>                    
+                <Grid DataContext="{Binding ReprortsViewModel}">
+                    <ScrollViewer>
+                        <StackPanel Orientation="Vertical">
+                            <Expander Header="Ведомость по зарплате">
+                                <DataGrid ItemsSource="{Binding SalaryReport.EmployeeSalaryCollection}"
+                                          AutoGenerateColumns="False"
+                                          IsReadOnly="True"
+                                          GridLinesVisibility="All">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Компания"  Binding="{Binding Company}"/>
+                                        <DataGridTextColumn Header="Подразделение" Binding="{Binding Department}"/>
+                                        <DataGridTextColumn Header="Сотрудник" Binding="{Binding Employee}"/>
+                                        <DataGridTextColumn Header="Зарплата" Binding="{Binding EmployeeSalary}"/>
+                                    </DataGrid.Columns>
+                                    <DataGrid.GroupStyle>
+                                        <GroupStyle>
+                                            <GroupStyle.ContainerStyle>
+                                                <Style TargetType="{x:Type GroupItem}">
+                                                    <Setter Property="Margin" Value="0,0,0,5"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                                <Expander IsExpanded="True" >
+                                                                    <Expander.Header>
+                                                                        <DockPanel>
+                                                                            <TextBlock FontWeight="Bold" Text="{Binding Path=Name}"/>
+                                                                            <TextBlock FontWeight="Bold" Text="Итог по зарплате: " Margin="5,0" />
+                                                                            <TextBlock FontWeight="Bold" Text="{Binding Path=Items, Converter={converters:EmployeeSalaryModelToDecimalConverter}}" Margin="5,0" />
+                                                                        </DockPanel>
+                                                                    </Expander.Header>
+                                                                    <Expander.Content>
+                                                                        <StackPanel>
+                                                                            <ItemsPresenter />
+                                                                        </StackPanel>
+                                                                    </Expander.Content>
+                                                                </Expander>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </GroupStyle.ContainerStyle>
+                                        </GroupStyle>
+                                    </DataGrid.GroupStyle>
+                                </DataGrid>
+                            </Expander>
+                            <Expander Header="Список сотрудников" DataContext="{Binding EmployeesList}" >
+                                <StackPanel Orientation="Vertical">
+                                    <WrapPanel>
+                                        <TextBlock FontWeight="Bold" Text="Компания:"/>
+                                        <ComboBox 
+                                        ToolTip="Компания"
+                                        MinWidth="120"
+                                        ItemsSource="{Binding Companyes}"
+                                        SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"/>
+                                    </WrapPanel>
+                                    <WrapPanel>
+                                        <TextBlock FontWeight="Bold" Text="Стаж:"/>
+                                        <ComboBox 
+                                        ToolTip="Стаж" 
+                                        Margin="5,0,0,0" 
+                                        MinWidth="120" 
+                                        ItemsSource="{Binding EmployeeExperiencesType}"
+                                        SelectedItem="{Binding SelectedEmployeeExperienceType, Mode=TwoWay}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Converter={converters:EnumItemToDescriptionConverter}}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <TextBox Text="{Binding SelectedEmployeeExperience, Mode=TwoWay}" IsEnabled="{Binding SelectedEmployeeExperienceIsActive}" Width="100"/>
+                                    </WrapPanel>                                    
+                                    <WrapPanel>
+                                        <ComboBox ToolTip="Тип" Margin="5,0,0,0" MinWidth="120"
+                                                  ItemsSource="{Binding FilterTypes}"
+                                                  SelectedItem="{Binding SelectedFilterType, Mode=TwoWay}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Converter={converters:EnumItemToDescriptionConverter}}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <ComboBox ToolTip="Значение" Margin="5,0,0,0" MinWidth="120"
+                                                  ItemsSource="{Binding FilterValues}"
+                                                  SelectedItem="{Binding SelectedFilterValue, Mode=TwoWay}"/>
+                                        <Button Style="{DynamicResource MahApps.Styles.Button.Square}" Command="{Binding ClearFilterValueCommand}">
+                                            <iconPacks:PackIconModern Width="10"
+                                                              Height="10"
+                                                              Kind="_3dX" />
+                                        </Button>
+                                    </WrapPanel>
+                                    <DataGrid ItemsSource="{Binding EmployeesCollection}"
+                                          AutoGenerateColumns="False"
+                                          IsReadOnly="True"
+                                          GridLinesVisibility="All">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Компания"  Binding="{Binding Company}"/>
+                                            <DataGridTextColumn Header="Подразделение" Binding="{Binding Department}"/>
+                                            <DataGridTextColumn Header="Сотрудник" Binding="{Binding Employee}"/>
+                                            <DataGridTextColumn Header="Стаж" Binding="{Binding EmployeeExperience}"/>
+                                            <DataGridTextColumn Header="Возраст" Binding="{Binding EmployeeAge}"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </StackPanel>
+                            </Expander>
+                        </StackPanel>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
         </TabControl>

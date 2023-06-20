@@ -4,19 +4,22 @@ using TestProject.Domain.Models.Reports;
 
 namespace TestProject.Reports
 {
-    public class ReprortsViewModel : ObservableObject
+    internal class ReprortsViewModel : ObservableObject
     {
         private readonly DBContextDataAccess _dBContextDataAccess;
-        public string Text { get; set; } = "Привет";
 
-        public SalaryReportModel SalaryReport { get; set; }
+        public SalaryReportViewModel SalaryReport { get; set; }
+        public EmployeesListViewModel EmployeesList { get; set; }
 
         public ReprortsViewModel(DBContextDataAccess dBContextDataAccess)
         {
             _dBContextDataAccess = dBContextDataAccess;
 
-            var data = _dBContextDataAccess.GetEmployeesSalary();
-            SalaryReport = new SalaryReportModel(data);
+            var slaryData = _dBContextDataAccess.GetEmployeesSalary();
+            SalaryReport = new SalaryReportViewModel(slaryData);
+
+            var employeesData = _dBContextDataAccess.GetEmployeesForEmployeesListReport();
+            EmployeesList = new EmployeesListViewModel(employeesData);
         }
     }
 }

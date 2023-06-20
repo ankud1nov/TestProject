@@ -12,7 +12,7 @@ using TestProject.Reports;
 
 namespace TestProject
 {
-    public class MainWindowViewModel : 
+    internal class MainWindowViewModel : 
         ObservableObject,
         IRecipient<ValueChangedMessage<CompanyDetailsViewModel>>,
         IRecipient<ValueChangedMessage<DepartmentDetailsViewModel>>,
@@ -44,13 +44,12 @@ namespace TestProject
             StrongReferenceMessenger.Default.Register<ValueChangedMessage<DepartmentDetailsViewModel>>(this);
             StrongReferenceMessenger.Default.Register<ValueChangedMessage<EmployeeDetailsViewModel>>(this);
             
-            Task.Run(() => FillDefaultCompanies());
+            Task.Run(() =>FillDefaultCompanies());
         }
 
-        public void FillDefaultCompanies()
+        private void FillDefaultCompanies()
         {
             var companyes = _dBContextDataAccess.GetAllCompanyes();
-
             
             foreach (var item in companyes)
                 _uiDispatcher.Invoke(() => _companies.Add(new CompanyDetailsViewModel(item)));

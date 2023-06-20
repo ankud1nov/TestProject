@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TestProject.Domain.Entities;
@@ -64,6 +65,27 @@ namespace TestProject.DataAccess
                     Department = x.Department.Name,
                     EmployeeSalary = x.Salary,
                     Employee = x.FullName
+                }).ToArray();
+        }
+
+        public ICollection<EmployeesListItemModel> GetEmployeesForEmployeesListReport()
+        {
+            if (_companies == null) GetAllCompanyes();
+            var today = DateTime.Today;
+
+            return _companies
+                .SelectMany(x => x.Departments)
+                .SelectMany(x => x.Employees)
+                .Select(x => new EmployeesListItemModel
+                {
+                    Company = x.Department.Company.Name,
+                    Department = x.Department.Name,
+                    Employee = x.FullName,
+                    EmployeeAge = x.Birthdate.Day >= today.Day 
+                        ? today.Year - x.Birthdate.Year
+                        : (today.Year - x.Birthdate.Year) -1,
+                    EmployeeExperience = today - x.EmploymentDate,
+                    BirthdateYear = x.Birthdate.Year
                 }).ToArray();
         }
     }

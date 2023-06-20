@@ -12,62 +12,35 @@
       Style="{DynamicResource MahApps.Styles.Page}">
 
     <Grid>
-        <Grid.Resources>
-            <CollectionViewSource x:Key="groups" Source="{Binding Value.Departments}">
-                <CollectionViewSource.GroupDescriptions>
-                    <PropertyGroupDescription PropertyName="Name" />
-                </CollectionViewSource.GroupDescriptions>
-            </CollectionViewSource>
-        </Grid.Resources>
-        <StackPanel Orientation="Vertical" Background="#FF252525">
-            <WrapPanel Orientation="Horizontal" Margin="5">
-                <Label Content="Название компании"/>
-                <TextBox MinWidth="200" Text="{Binding Value.Name, Mode=TwoWay}"/>
-            </WrapPanel>
-            <WrapPanel Orientation="Horizontal" Margin="5">
-                <Label Content="Дата создания"/>
-                <DatePicker SelectedDate="{Binding Value.CreateDate, Mode=TwoWay}"/>
-            </WrapPanel>
-            <WrapPanel Orientation="Horizontal" Margin="5">
-                <Label Content="Юридический адрес"/>
-                <TextBox MinWidth="200" Text="{Binding Value.JuridicalAddress, Mode=TwoWay}"/>
-            </WrapPanel>
-            <Label Content="Список подразделений"/>
-            <DataGrid ItemsSource="{Binding Source={StaticResource groups}}"
-                      Height="250"
+        <ScrollViewer>
+            <StackPanel Orientation="Vertical" Background="#FF252525">
+                <WrapPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Название компании"/>
+                    <TextBox MinWidth="200" Text="{Binding Value.Name, Mode=TwoWay}"/>
+                </WrapPanel>
+                <WrapPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Дата создания"/>
+                    <DatePicker SelectedDate="{Binding Value.CreateDate, Mode=TwoWay}"/>
+                </WrapPanel>
+                <WrapPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Юридический адрес"/>
+                    <TextBox MinWidth="200" Text="{Binding Value.JuridicalAddress, Mode=TwoWay}"/>
+                </WrapPanel>
+                <Label Content="Список подразделений"/>
+                <DataGrid ItemsSource="{Binding Value.Departments}"
                       AutoGenerateColumns="False"
                       IsReadOnly="True"
                       GridLinesVisibility="All">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Название"  Binding="{Binding Name}"/>
-                    <DataGridTextColumn Header="Руководитель" Binding="{Binding DepartmentHead.FullName}" />
-                </DataGrid.Columns>
-                <DataGrid.GroupStyle>
-                    <GroupStyle>
-                        <GroupStyle.ContainerStyle>
-                            <Style TargetType="{x:Type GroupItem}">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type GroupItem}">
-                                            <StackPanel>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Name}" />
-                                                    <TextBlock Text="{Binding ItemCount, StringFormat=Count: {0}}" Margin="30,0,0,0" />
-                                                </StackPanel>
-                                                <ItemsPresenter />
-                                            </StackPanel>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </GroupStyle.ContainerStyle>
-                    </GroupStyle>
-                </DataGrid.GroupStyle>
-            </DataGrid>
-            <WrapPanel Orientation="Horizontal" Margin="5">
-                <Button Content="Сохранить" Command="{Binding SaveCommand}"/>
-                <Button Content="Удалить" Command="{Binding DeleteCommand}"/>
-            </WrapPanel>
-        </StackPanel>        
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Название"  Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Руководитель" Binding="{Binding DepartmentHead.FullName}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <WrapPanel Orientation="Horizontal" Margin="5">
+                    <Button Content="Сохранить" Command="{Binding SaveCommand}"/>
+                    <Button Content="Удалить" Command="{Binding DeleteCommand}"/>
+                </WrapPanel>
+            </StackPanel>
+        </ScrollViewer>                
     </Grid>
 </Page>
