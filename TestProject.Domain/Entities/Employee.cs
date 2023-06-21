@@ -9,7 +9,7 @@ namespace TestProject.Domain.Entities
     {
         [Key]
         public int Id { get; set; }
-        public string Surname { get; set; }
+        public string Surname { get; set; } 
         public string Name { get; set; }
         public string Lastname { get; set; }
         public DateTime Birthdate { get; set; }
@@ -22,7 +22,7 @@ namespace TestProject.Domain.Entities
         [NotMapped]
         public string FullName
         {
-            get => $"{Surname} {Name.Substring(0, 1)}. {Lastname.Substring(0, 1)}.";
+            get => $"{Surname} {(string.IsNullOrEmpty(Name) ? "": Name.Substring(0, 1))}. {(string.IsNullOrEmpty(Lastname) ? "" : Lastname.Substring(0, 1))}.";
             // Значение не для записи, set - чтобы работал MVVM без ошибок.
             set { }
         }

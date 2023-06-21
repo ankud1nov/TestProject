@@ -31,9 +31,9 @@ namespace TestProject.Pages.Details
 
         private void Save()
         {
+            //TODO: Добавить проверки перед сохранением
             try
             {
-
                 if (_value is Domain.Entities.Employee)
                 {
                     OnPropertyChanged("FullName");

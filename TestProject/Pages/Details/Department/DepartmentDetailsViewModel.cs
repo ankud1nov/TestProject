@@ -4,6 +4,8 @@ using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
 using TestProject.Domain.Entities;
 using TestProject.Pages.Details;
+using System.Windows.Input;
+using TestProject.Domain.Extensions;
 
 namespace TestProject.Pages
 {
@@ -17,6 +19,18 @@ namespace TestProject.Pages
             {
                 if (SetProperty(ref _employee, value, nameof(DepartmentHead)))
                 {
+                    if (Value.DepartmentHead != null)
+                    {
+                        Value.DepartmentHead.EmployeeHead = _employee;
+                    }
+                    else
+                    {
+                        Value.DepartmentHead = new DepartmentHead
+                        {
+                            EmployeeHead = _employee,
+                            Department = Value
+                        };
+                    }
                     Value.DepartmentHead.EmployeeHead = _employee;
                 }
             }
@@ -35,14 +49,26 @@ namespace TestProject.Pages
             StrongReferenceMessenger.Default.Send(new ValueChangedMessage<DepartmentDetailsViewModel>(this));
         }
 
+        public ICommand AddEmployeeCommand { get; }
+
         public DepartmentDetailsViewModel(Department department) : base(department)
         {
-            foreach (var employee in department.Employees)
+            foreach (var employee in department.Employees.EmptyIfNull())
             {
-                Employees.Add(new EmployeeDetailsViewModel(employee));
+                Employees.Add(new EmployeeDetailsViewModel(employee, Value.Company.Departments));
             }
 
-            DepartmentHead = department.DepartmentHead.EmployeeHead;
+            DepartmentHead = department?.DepartmentHead?.EmployeeHead;
+
+            AddEmployeeCommand = new RelayCommand(AddEmployee);
+        }
+
+        private void AddEmployee()
+        {
+            var newEmployee = new EmployeeDetailsViewModel(new Employee(), Value.Company.Departments);
+            var mainVM = ServicesLocator.Current.GetRequiredService<MainWindowViewModel>();
+            mainVM.uiDispatcher.Invoke(() => Employees.Add(newEmployee));
+            mainVM.uiDispatcher.BeginInvoke(() => mainVM.PaginatorInstance.SetDeatilsPage(newEmployee));
         }
     }
 }

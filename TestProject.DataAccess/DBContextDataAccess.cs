@@ -47,9 +47,9 @@ namespace TestProject.DataAccess
                     Company = x.Department.Company.Name,
                     Department = x.Department.Name,
                     Employee = x.FullName,
-                    EmployeeAge = x.Birthdate.Day >= today.Day 
-                        ? today.Year - x.Birthdate.Year
-                        : (today.Year - x.Birthdate.Year) -1,
+                    EmployeeAge = x.Birthdate.DayOfYear >= today.DayOfYear
+                        ? (today.Year - x.Birthdate.Year) - 1
+                        : today.Year - x.Birthdate.Year,
                     EmployeeExperience = today - x.EmploymentDate,
                     BirthdateYear = x.Birthdate.Year
                 }).ToArray();
@@ -73,7 +73,7 @@ namespace TestProject.DataAccess
             }
         }
 
-        public async void Delete<T>(T value) where T : class
+        public void Delete<T>(T value) where T : class
         {
             switch (value)
             {
@@ -144,7 +144,7 @@ namespace TestProject.DataAccess
         }
         private async void DeleteIfNeed(Department department)
         {
-            if (_applicationDbContext.Companies.Any(x => x.Id == department.Id))
+            if (_applicationDbContext.Departments.Any(x => x.Id == department.Id))
             {
                 _applicationDbContext.Remove(department);
                 await _applicationDbContext.SaveChangesAsync();
@@ -152,7 +152,7 @@ namespace TestProject.DataAccess
         }
         private async void DeleteIfNeed(Employee employee)
         {
-            if (_applicationDbContext.Companies.Any(x => x.Id == employee.Id))
+            if (_applicationDbContext.Employees.Any(x => x.Id == employee.Id))
             {
                 _applicationDbContext.Remove(employee);
                 await _applicationDbContext.SaveChangesAsync();

@@ -44,7 +44,7 @@
                                         <Label.Content>
                                             <StackPanel Orientation="Horizontal">
                                                 <Label Content="{Binding Value.Name}"/>
-                                                <Button ToolTip="Добавить отдел">
+                                                <Button ToolTip="Добавить отдел" Command="{Binding AddDepartmentCommand}" >
                                                     <iconPacks:PackIconModern Width="10"
                                                               Height="10"
                                                               Kind="Add" />
@@ -61,7 +61,7 @@
                                                 <Label.Content>
                                                     <StackPanel Orientation="Horizontal">
                                                         <Label Content="{Binding Value.Name}"/>
-                                                        <Button ToolTip="Добавить сотрудника">
+                                                        <Button ToolTip="Добавить сотрудника" Command="{Binding AddEmployeeCommand}">
                                                             <iconPacks:PackIconModern Width="10"
                                                               Height="10"
                                                               Kind="Add" />

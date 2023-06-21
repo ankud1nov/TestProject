@@ -29,11 +29,11 @@ namespace TestProject.Pages
 
         public ICollection<Department> Departments { get; set; }
 
-        public EmployeeDetailsViewModel(Employee employee) : base(employee)
+        public EmployeeDetailsViewModel(Employee employee, ICollection<Department> departments) : base(employee)
         {
-            Departments = employee.Department.Company.Departments.ToArray();
+            Departments = departments;
             CurrentDepartment = employee.Department;
-            CanChangeDepartment = CurrentDepartment.DepartmentHead.EmployeeHead.Id != Value.Id;
+            CanChangeDepartment = CurrentDepartment?.DepartmentHead?.EmployeeHead.Id != Value.Id;
         }
 
         [RelayCommand]
