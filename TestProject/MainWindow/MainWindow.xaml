@@ -94,8 +94,14 @@
                 <Grid DataContext="{Binding ReprortsViewModel}">
                     <ScrollViewer>
                         <StackPanel Orientation="Vertical">
-                            <Expander Header="Ведомость по зарплате">
-                                <DataGrid ItemsSource="{Binding SalaryReport.EmployeeSalaryCollection}"
+                            <Expander DataContext="{Binding SalaryReport}">
+                                <Expander.Header>
+                                    <WrapPanel>
+                                        <TextBlock Text="Ведомость по зарплате"/>
+                                        <Button Content="Обновить" Command="{Binding RefreshCommand}"/>
+                                    </WrapPanel>
+                                </Expander.Header>
+                                <DataGrid ItemsSource="{Binding EmployeeSalaryCollection}"
                                           AutoGenerateColumns="False"
                                           IsReadOnly="True"
                                           GridLinesVisibility="All">
@@ -136,7 +142,13 @@
                                     </DataGrid.GroupStyle>
                                 </DataGrid>
                             </Expander>
-                            <Expander Header="Список сотрудников" DataContext="{Binding EmployeesList}" >
+                            <Expander DataContext="{Binding EmployeesList}" >
+                                <Expander.Header>
+                                    <WrapPanel>
+                                        <TextBlock Text="Список сотрудников"/>
+                                        <Button Content="Обновить" Command="{Binding RefreshCommand}"/>
+                                    </WrapPanel>
+                                </Expander.Header>
                                 <StackPanel Orientation="Vertical">
                                     <WrapPanel>
                                         <TextBlock FontWeight="Bold" Text="Компания:"/>

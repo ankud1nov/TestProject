@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
+using TestProject.DataAccess;
 using TestProject.Domain.Extensions;
 using TestProject.Domain.Models.Reports;
 using TestProject.Reports.Enums;
@@ -23,8 +24,13 @@ public class EmployeesListViewModel : ObservableObject
     private FilterTypeEnum _selectedFilterType;
     private ICollection<int> _filterValues;
     private int? _selectedFilterValue;
+    private ICollectionView _employeesCollection;
 
-    public ICollectionView EmployeesCollection { get; set; }
+    public ICollectionView EmployeesCollection 
+    {
+        get => _employeesCollection; 
+        set => SetProperty(ref _employeesCollection, value, nameof(EmployeesCollection));
+    }
     public ICollection<string> Companyes { get; set; }
     public string SelectedCompany { get; set; }
     public ICollection<ExperienceTypeEnum> EmployeeExperiencesType { get; set; }
@@ -85,6 +91,7 @@ public class EmployeesListViewModel : ObservableObject
     }
 
     public ICommand ClearFilterValueCommand { get; }
+    public ICommand RefreshCommand { get; }
 
     public EmployeesListViewModel(ICollection<EmployeesListItemModel> employeesListItems)
     {
@@ -100,6 +107,15 @@ public class EmployeesListViewModel : ObservableObject
         ApllyFilters();
 
         ClearFilterValueCommand = new RelayCommand(ClearFilterValue);
+        RefreshCommand = new RelayCommand(Refresh);
+    }
+
+    private void Refresh()
+    {
+        var dBContextDataAccess = ServicesLocator.Current.GetRequiredService<DBContextDataAccess>();
+        var employeesData = dBContextDataAccess.GetEmployeesForEmployeesListReport();
+        EmployeesCollection = CollectionViewSource.GetDefaultView(employeesData);
+        ApllyFilters();
     }
 
     public void ApllyFilters()
