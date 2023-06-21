@@ -13,8 +13,8 @@ namespace TestProject.Domain.Entities
         public string Lastname { get; set; }
         public DateTime Birthdate { get; set; }
         public DateTime EmploymentDate { get; set; }
-        [ForeignKey(nameof(DepartamentId))]
-        public int DepartamentId { get; set; }
+        [ForeignKey(nameof(DepartmentId))]
+        public int DepartmentId { get; set; }
         public virtual Department Department { get; set; }
         public string Position { get; set; }
         public double Salary { get; set; }

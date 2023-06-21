@@ -26,7 +26,7 @@ namespace TestProject.Pages
                     .GetRequiredSection("Departments")
                     .Get<Department[]>();
 
-            CurrentDepartment = Departments.FirstOrDefault(x => x.Id == Value.DepartamentId);
+            CurrentDepartment = Departments.FirstOrDefault(x => x.Id == Value.DepartmentId);
         }
 
         [RelayCommand]

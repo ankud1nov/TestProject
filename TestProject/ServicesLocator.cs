@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
@@ -34,10 +35,22 @@ namespace TestProject
                 {
                     ConfigureServices(services);
                 }).Build();
+
+            using (var scope = _host.Services.CreateAsyncScope())
+            {
+                var initializer = scope.ServiceProvider.GetRequiredService<Initializer>();
+                initializer.InitialCreate().GetAwaiter().GetResult();
+            }
         }
 
         private void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlite(_configuration.GetConnectionString("DefaultConnection"));
+            });
+            services.AddScoped<Initializer>();
+
             services.AddSingleton(_configuration);
             services.AddSingleton<DBContextDataAccess>();
             services.AddSingleton<Paginator>();
@@ -65,9 +78,9 @@ namespace TestProject
         private void RegisterViewModels(IServiceCollection services)
         {
             services.AddSingleton<MainWindowViewModel>();
-            services.AddTransient<CompanyDetailsViewModel>();
-            services.AddTransient<DepartmentDetailsViewModel>();
-            services.AddTransient<EmployeeDetailsViewModel>();
+            //services.AddTransient<CompanyDetailsViewModel>();
+            //services.AddTransient<DepartmentDetailsViewModel>();
+            //services.AddTransient<EmployeeDetailsViewModel>();
             services.AddSingleton<ReprortsViewModel>();
         }
 

@@ -36,7 +36,7 @@ namespace TestProject.Pages
                 Employees.Add(new EmployeeDetailsViewModel(employee));
             }
 
-            DepartmentHead = department.DepartmentHead;
+            DepartmentHead = department.DepartmentHead.EmployeeHead;
         }
     }
 }

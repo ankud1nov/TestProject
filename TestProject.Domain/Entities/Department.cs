@@ -9,9 +9,7 @@ namespace TestProject.Domain.Entities
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        [ForeignKey(nameof(DepartmentHeadId))]
-        public int DepartmentHeadId { get; set; }
-        public virtual Employee DepartmentHead { get; set; }
+        public virtual DepartmentHead? DepartmentHead { get; set; }
         public virtual ICollection<Employee> Employees { get; set; }
         [ForeignKey(nameof(CompanyId))]
         public int CompanyId { get; set; }

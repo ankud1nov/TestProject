@@ -35,15 +35,21 @@ namespace TestProject.DataAccess
 
             foreach (var employee in employees)
             {
-                employee.Department = departments.FirstOrDefault(x => x.Id == employee.DepartamentId);
+                employee.Department = departments.FirstOrDefault(x => x.Id == employee.DepartmentId);
             }
 
             foreach (var department in departments)
             {
-                department.DepartmentHead = employees.FirstOrDefault(x => x.DepartamentId == department.Id && x.Position == "Начальник отдела");
-                department.DepartmentHeadId = department.DepartmentHead?.Id ?? department.DepartmentHeadId;
+                var departmentHead = new DepartmentHead
+                {
+                    DepartmentId = department.Id,
+                    Department = department,
+                    EmployeeHead = employees.FirstOrDefault(x => x.DepartmentId == department.Id && x.Position == "Начальник отдела"),
+                };
+                departmentHead.EmployeeId = departmentHead.EmployeeHead.Id;
+                department.DepartmentHead = departmentHead;
                 department.Company = company;
-                department.Employees = employees.Where(x => x.DepartamentId == department.Id).ToArray();
+                department.Employees = employees.Where(x => x.DepartmentId == department.Id).ToArray();
             }
 
             company.Departments = departments;
