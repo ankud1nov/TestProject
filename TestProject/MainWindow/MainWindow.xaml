@@ -6,7 +6,6 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:TestProject"
-        xmlns:reports="clr-namespace:TestProject.Reports"
         xmlns:converters="clr-namespace:TestProject.Converters"
         mc:Ignorable="d"
         Title="MainWindow" MinHeight="500" Height="600" Width="800"
@@ -26,12 +25,12 @@
                         <GroupBox.Header>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Список компаний"/>
-                                <Button ToolTip="Добавить компанию">
+                                <Button ToolTip="Добавить компанию" Command="{Binding AddCompanyCommand}">
                                     <iconPacks:PackIconModern Width="10"
                                                               Height="10"
                                                               Kind="Add" />
                                 </Button>
-                                <Button ToolTip="Обновить список">
+                                <Button ToolTip="Обновить список" Command="{Binding RefreshCommand}">
                                     <iconPacks:PackIconModern Width="10"
                                                               Height="10"
                                                               Kind="Refresh" />

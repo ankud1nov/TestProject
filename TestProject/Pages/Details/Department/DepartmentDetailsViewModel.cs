@@ -13,7 +13,13 @@ namespace TestProject.Pages
         public Employee DepartmentHead
         {
             get => _employee;
-            set => SetProperty(ref _employee, value, nameof(DepartmentHead));
+            set
+            {
+                if (SetProperty(ref _employee, value, nameof(DepartmentHead)))
+                {
+                    Value.DepartmentHead.EmployeeHead = _employee;
+                }
+            }
         }
 
         private ObservableCollection<EmployeeDetailsViewModel> _employees = new ObservableCollection<EmployeeDetailsViewModel>();

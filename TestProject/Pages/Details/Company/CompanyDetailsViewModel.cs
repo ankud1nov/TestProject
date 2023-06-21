@@ -4,6 +4,8 @@ using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
 using TestProject.Domain.Entities;
 using TestProject.Pages.Details;
+using System.Linq;
+using TestProject.Domain.Extensions;
 
 namespace TestProject.Pages
 {
@@ -24,7 +26,7 @@ namespace TestProject.Pages
 
         public CompanyDetailsViewModel(Company company) : base(company)
         {
-            foreach (var department in company.Departments)
+            foreach (var department in company.Departments.EmptyIfNull())
             {
                 Departments.Add(new DepartmentDetailsViewModel(department));
             }

@@ -33,7 +33,7 @@
                       GridLinesVisibility="All">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Название"  Binding="{Binding Name}"/>
-                        <DataGridTextColumn Header="Руководитель" Binding="{Binding DepartmentHead.FullName}" />
+                        <DataGridTextColumn Header="Руководитель" Binding="{Binding DepartmentHead.EmployeeHead.FullName}" />
                     </DataGrid.Columns>
                 </DataGrid>
                 <WrapPanel Orientation="Horizontal" Margin="5">

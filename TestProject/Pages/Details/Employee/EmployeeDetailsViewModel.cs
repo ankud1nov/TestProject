@@ -6,6 +6,7 @@ using TestProject.Pages.Details;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
+using System.Windows;
 
 namespace TestProject.Pages
 {
@@ -15,18 +16,24 @@ namespace TestProject.Pages
         public Department CurrentDepartment 
         {
             get => _department;
-            set => SetProperty(ref _department, value, nameof(CurrentDepartment));
+            set
+            {
+                if (SetProperty(ref _department, value, nameof(CurrentDepartment)))
+                {
+                    Value.DepartmentId = _department.Id;
+                }                    
+            }
         }
+
+        public bool CanChangeDepartment { get; set; }
+
         public ICollection<Department> Departments { get; set; }
 
         public EmployeeDetailsViewModel(Employee employee) : base(employee)
         {
-            var conf = ServicesLocator.Current.GetRequiredService<IConfiguration>();
-            Departments = conf
-                    .GetRequiredSection("Departments")
-                    .Get<Department[]>();
-
-            CurrentDepartment = Departments.FirstOrDefault(x => x.Id == Value.DepartmentId);
+            Departments = employee.Department.Company.Departments.ToArray();
+            CurrentDepartment = employee.Department;
+            CanChangeDepartment = CurrentDepartment.DepartmentHead.EmployeeHead.Id != Value.Id;
         }
 
         [RelayCommand]

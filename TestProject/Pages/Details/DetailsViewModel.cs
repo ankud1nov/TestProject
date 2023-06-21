@@ -1,7 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using System;
 using System.Windows;
 using System.Windows.Input;
+using TestProject.DataAccess;
+using TestProject.Messages;
 
 namespace TestProject.Pages.Details
 {
@@ -27,12 +31,37 @@ namespace TestProject.Pages.Details
 
         private void Save()
         {
-            MessageBox.Show($"save");
+            try
+            {
+
+                if (_value is Domain.Entities.Employee)
+                {
+                    OnPropertyChanged("FullName");
+                }
+                var context = ServicesLocator.Current.GetRequiredService<DBContextDataAccess>();
+                context.SaveOrUpdate(Value);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при сохранении");
+            }
+
+            //TODO: можно сделать выборочное обовление дерева но пока так
+            StrongReferenceMessenger.Default.Send(new NeedRefreshMessage());
         }
 
         private void Delete()
         {
-            MessageBox.Show($"Delete");
+            try
+            {
+                var context = ServicesLocator.Current.GetRequiredService<DBContextDataAccess>();
+                context.Delete(Value);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show($"Ошибка при удалении");
+            }
+            StrongReferenceMessenger.Default.Send(new NeedRefreshMessage());
         }
     }
 

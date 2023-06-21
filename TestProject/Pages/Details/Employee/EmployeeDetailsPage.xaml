@@ -37,7 +37,9 @@
                     ItemsSource="{Binding Departments}"
                     DisplayMemberPath="Name"
                     SelectedItem="{Binding CurrentDepartment, Mode=TwoWay}"
-                    SelectedValuePath="Name"/>
+                    SelectedValuePath="Name"
+                    IsEnabled="{Binding CanChangeDepartment}"/>
+                <Label Content="Для смены отдела руководителю, нужно сменить руководителя отдела"/>
             </WrapPanel>
             <WrapPanel Orientation="Horizontal" Margin="5">
                 <Label Content="Должность"/>

@@ -1,12 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.Mvvm.Messaging.Messages;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Windows.Threading;
 using TestProject.DataAccess;
+using TestProject.Messages;
 using TestProject.Pages;
 using TestProject.Reports;
 
@@ -17,6 +20,7 @@ namespace TestProject
         IRecipient<ValueChangedMessage<CompanyDetailsViewModel>>,
         IRecipient<ValueChangedMessage<DepartmentDetailsViewModel>>,
         IRecipient<ValueChangedMessage<EmployeeDetailsViewModel>>,
+        IRecipient<NeedRefreshMessage>,
         IDisposable
     {
         private readonly DBContextDataAccess _dBContextDataAccess;
@@ -29,6 +33,9 @@ namespace TestProject
         public Dispatcher uiDispatcher => _uiDispatcher;
         public ObservableCollection<CompanyDetailsViewModel> Companies => _companies;
         public ReprortsViewModel ReprortsViewModel { get; set; }
+
+        public ICommand RefreshCommand { get; }
+        public ICommand AddCompanyCommand { get; }
 
         public MainWindowViewModel(
             ReprortsViewModel reprortsViewModel,
@@ -43,8 +50,18 @@ namespace TestProject
             StrongReferenceMessenger.Default.Register<ValueChangedMessage<CompanyDetailsViewModel>>(this);
             StrongReferenceMessenger.Default.Register<ValueChangedMessage<DepartmentDetailsViewModel>>(this);
             StrongReferenceMessenger.Default.Register<ValueChangedMessage<EmployeeDetailsViewModel>>(this);
-            
-            Task.Run(() =>FillDefaultCompanies());
+            StrongReferenceMessenger.Default.Register<NeedRefreshMessage>(this);
+
+            RefreshCommand = new RelayCommand(() => Task.Run(() => ClearAndRefresh()));
+            AddCompanyCommand = new RelayCommand(AddCompany);
+            Task.Run(() => FillDefaultCompanies());
+        }
+
+        private void ClearAndRefresh()
+        {
+            _uiDispatcher.Invoke(() => _companies.Clear());
+
+            FillDefaultCompanies();
         }
 
         private void FillDefaultCompanies()
@@ -56,6 +73,13 @@ namespace TestProject
 
             if (_companies.Any())
                 _uiDispatcher.BeginInvoke(() => _paginator.SetDeatilsPage(_companies.FirstOrDefault()));
+        }
+
+        private void AddCompany()
+        {
+            var newCompany = new CompanyDetailsViewModel(new Domain.Entities.Company());
+            _uiDispatcher.Invoke(() => _companies.Add(newCompany));
+            _uiDispatcher.BeginInvoke(() => _paginator.SetDeatilsPage(newCompany));
         }
 
         public void Receive(ValueChangedMessage<CompanyDetailsViewModel> message)
@@ -76,6 +100,11 @@ namespace TestProject
         public void Dispose()
         {
             StrongReferenceMessenger.Default.UnregisterAll(this);
+        }
+
+        public void Receive(NeedRefreshMessage message)
+        {
+            ClearAndRefresh();
         }
     }
 }
