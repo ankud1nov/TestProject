@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using TestProject.Domain.Entities;
@@ -9,60 +8,21 @@ namespace TestProject.DataAccess
 {
     public class DBContextDataAccess
     {
-        private readonly IConfiguration _configuration;
-        private Company[] _companies;
+        private readonly ApplicationDbContext _applicationDbContext;
 
-        public DBContextDataAccess(IConfiguration configuration) 
+        public DBContextDataAccess(ApplicationDbContext applicationDbContext) 
         { 
-            _configuration = configuration;
+            _applicationDbContext = applicationDbContext;
         }
 
         public ICollection<Company> GetAllCompanyes()
         {
-            if (_companies != null) return _companies;
-
-            var company = _configuration
-                .GetRequiredSection("Company")
-                .Get<Company>();
-
-            var departments = _configuration
-                .GetRequiredSection("Departments")
-                .Get<Department[]>();
-
-            var employees = _configuration
-                .GetRequiredSection("Employees")
-                .Get<Employee[]>();
-
-            foreach (var employee in employees)
-            {
-                employee.Department = departments.FirstOrDefault(x => x.Id == employee.DepartmentId);
-            }
-
-            foreach (var department in departments)
-            {
-                var departmentHead = new DepartmentHead
-                {
-                    DepartmentId = department.Id,
-                    Department = department,
-                    EmployeeHead = employees.FirstOrDefault(x => x.DepartmentId == department.Id && x.Position == "Начальник отдела"),
-                };
-                departmentHead.EmployeeId = departmentHead.EmployeeHead.Id;
-                department.DepartmentHead = departmentHead;
-                department.Company = company;
-                department.Employees = employees.Where(x => x.DepartmentId == department.Id).ToArray();
-            }
-
-            company.Departments = departments;
-            _companies = new Company[] { company };
-
-            return _companies;
+            return _applicationDbContext.Companies.ToArray();
         }
 
         public ICollection<EmployeeSalaryModel> GetEmployeesSalary()
         {
-            if (_companies == null) GetAllCompanyes();
-
-            return _companies
+            return _applicationDbContext.Companies
                 .SelectMany(x => x.Departments)
                 .SelectMany(x => x.Employees)
                 .Select(x => new EmployeeSalaryModel
@@ -76,10 +36,9 @@ namespace TestProject.DataAccess
 
         public ICollection<EmployeesListItemModel> GetEmployeesForEmployeesListReport()
         {
-            if (_companies == null) GetAllCompanyes();
             var today = DateTime.Today;
 
-            return _companies
+            return _applicationDbContext.Companies
                 .SelectMany(x => x.Departments)
                 .SelectMany(x => x.Employees)
                 .Select(x => new EmployeesListItemModel
